@@ -14,6 +14,17 @@
 </head>
 
 <body>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="userDetails" aria-labelledby="userDetailsLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="userDetailsLabel">User Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <p><strong>ID:</strong> <span id="detail-id"></span></p>
+            <p><strong>Name:</strong> <span id="detail-name"></span></p>
+            <p><strong>Email:</strong> <span id="detail-email"></span></p>
+        </div>
+    </div>
 
     <div class="container-lg">
         <br>
@@ -45,6 +56,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -86,6 +98,8 @@
                                 <td>${user.id}</td>
                                 <td>${user.name}</td>
                                 <td>${user.email}</td>
+                                <td><button class="btn btn-sm btn-info" onclick='showUserDetails(${JSON.stringify(user)})'>View</button></td>
+
                             </tr>`;
                     });
                     $('table tbody').html(tableRows);
@@ -103,6 +117,16 @@
                     console.error('Error fetching users:', error);
                 }
             });
+        }
+
+        function showUserDetails(user) {
+            $('#detail-id').text(user.id);
+            $('#detail-name').text(user.name);
+            $('#detail-email').text(user.email);
+
+            let offcanvasEl = document.getElementById('userDetails');
+            let bsOffcanvas = new bootstrap.Offcanvas(offcanvasEl);
+            bsOffcanvas.show();
         }
 
         $(document).ready(function() {
